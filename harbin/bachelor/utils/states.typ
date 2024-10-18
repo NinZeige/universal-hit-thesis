@@ -14,6 +14,7 @@
     year: current-date.year(),
     month: current-date.month(),
     day: current-date.day(),
+    doc-type: "thesis",
   ),
 )
 

@@ -1,7 +1,8 @@
 #import "../../common/theme/type.typ": 字体, 字号
 #import "components/typography.typ": main-format-heading, special-chapter-format-heading
-#import "utils/numbering.typ": heading-numbering
+#import "utils/numbering.typ": thesis-heading-numbering, proposal-heading-numbering
 #import "config/constants.typ": special-chapter-titles
+#import "config/constants.typ": special-words
 #import "config/constants.typ": current-date
 #import "utils/states.typ": thesis-info-state, bibliography-state
 #import "@preview/cuti:0.2.1": show-cn-fakebold
@@ -22,9 +23,17 @@
       [
         #set align(center)
         #set par(leading: 0em)
-        #text(font: 字体.宋体, size: 字号.小五, baseline: 8.5pt)[
-          哈尔滨工业大学本科毕业论文（设计）
-        ]
+        #text(font: 字体.宋体, size: 字号.小五, baseline: 8.5pt)[#context {
+          let info = thesis-info-state.get()
+          let doc-type = info.at("doc-type")
+          if doc-type == "thesis" {
+            special-words.thesis-header
+          } else if doc-type == "proposal" {
+            special-words.proposal-header
+          } else {
+            panic("Not supported type: " + t)
+          }
+        }]
         #line(length: 100%, stroke: 2.2pt)
         #v(2.2pt, weak: true)
         #line(length: 100%, stroke: 0.6pt)
@@ -73,6 +82,7 @@
 #let main(
   content,
   figure-options: (:),
+  dtype: "thesis",
 ) = {
 
   figure-options = figure-options + (
@@ -91,7 +101,8 @@
 
   counter(page).update(1)
 
-  set heading(numbering: heading-numbering)
+  let method = if dtype == "thesis" {thesis-heading-numbering} else if dtype == "proposal" {proposal-heading-numbering} else {panic("Not support")}
+  set heading(numbering: method)
 
   show heading: it => {
     set par(first-line-indent: 0em)
@@ -217,12 +228,15 @@
     extra-prefixes: (:),
   )
 
-  show: main.with(figure-options: figure-options)
+  show: main.with(figure-options: figure-options, dtype: thesis-info.at("doc-type"))
 
   content
 }
 
-#let ending(content, conclusion: none, achievement: none, acknowledgement: none) = {
+#let ending(content, conclusion: none, achievement: none, acknowledgement: none) = context {
+  let info = thesis-info-state.get()
+  let dtype = info.at("doc-type")
+  let thesis = dtype == "thesis"; let proposal = dtype == "proposal"
   show heading: it => {
     set par(first-line-indent: 0em)
 
@@ -237,6 +251,12 @@
     }
   }
   set heading(numbering: none)
+
+  // 开题报告仅需参考文献页即可
+  if proposal {
+    bibliography-page()
+    return
+  }
 
   if conclusion != none {
 

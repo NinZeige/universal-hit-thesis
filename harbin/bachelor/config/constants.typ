@@ -10,3 +10,8 @@
 )
 
 #let current-date = datetime.today()
+#let special-words = (
+  proposal-title: "哈尔滨工业大学深圳校区\n毕业设计开题报告",
+  proposal-header: "哈尔滨工业大学深圳校区毕业设计开题报告",
+  thesis-header: "哈尔滨工业大学本科毕业论文（设计）",
+)

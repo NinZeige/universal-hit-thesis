@@ -16,6 +16,7 @@
     profession: "机械制造及其自动化",
     collage: "机电工程学院",
     institute: "哈尔滨工业大学",
+    doc-type: "proposal", // "proposal": 开题报告; "thesis": 毕业论文
     // year: 2024,
     // month: 5,
     // day: 1,
