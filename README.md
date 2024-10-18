@@ -2,6 +2,8 @@
 
 适用于哈尔滨工业大学学位论文的 Typst 模板
 
+本仓库在原模板的基础上进行修改，增加了毕设开题模板，格式仿照官网提供的word模板文件。
+
 ![hit-thesis-typst-cover](https://vonbrank-images.oss-cn-hangzhou.aliyuncs.com/20240426-HIT-Thesis-Typst/hit-thesis-typst-development-cover-01.jpg)
 
 > [!WARNING]
@@ -18,8 +20,27 @@
 **预览效果**
 
 - 本科通用：[universal-bachelor.pdf](https://github.com/hitszosa/universal-hit-thesis/blob/build/universal-bachelor.pdf)
+- 本科开题报告：[proposal-bachelor.pdf](https://github.com/NinZeige/universal-hit-thesis/blob/build/proposal-bachelor.pdf)
 
 ## 使用
+
+### 切换至开题报告模板
+
+在[本地编辑II](#本地编辑-ⅱ)下，修改 `universal-bechelor.typ`中的`doc-type`变量值为 `"proposal"`：
+
+```
+#show: doc.with(
+  thesis-info: (
+    title-cn: "...",
+    // ...
+    doc-type: "proposal", // <==
+  ),
+  // ...
+) 
+```
+
+- 使用SimHei作为黑体似乎会遇到封面文字未对齐的情况，使用FandolHei可避开此问题。
+- 可以将 `universal-bachelor.typ` 第一行改成 `#import "../lib.typ": universal-bachelor`直接使用模板，而不用设置复杂的环境变量（这句话不要让作者看到）
 
 ### 本地编辑 Ⅰ （推荐）
 
